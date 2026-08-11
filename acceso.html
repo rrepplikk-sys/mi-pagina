@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f9a8d4, #fecdd3);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #formulario {
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+        }
+        h2 {
+            color: #be185d;
+            margin-bottom: 24px;
+        }
+        label {
+            display: block;
+            text-align: left;
+            color: #4b5563;
+            font-size: 0.9rem;
+            margin: 12px 0 4px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #ec4899;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #db2777;
+        }
+        #resultado {
+            text-align: center;
+            color: #fff;
+        }
+        #resultado h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        #resultado img {
+            max-width: 80vw;
+            max-height: 60vh;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+        .oculto {
+            display: none;
+        }
+        #cerrado {
+            text-align: center;
+            color: #fff;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="formulario">
+        <h2>Bienvenido, completa tus datos</h2>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" placeholder="Tu nombre">
+        <label for="edad">Edad</label>
+        <input type="number" id="edad" placeholder="Tu edad" min="1">
+        <label for="genero">Género</label>
+        <select id="genero">
+            <option value="">Selecciona...</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="otro">Otro</option>
+        </select>
+        <button onclick="acceder()">Entrar</button>
+    </div>
+
+    <div id="cerrado" class="oculto"></div>
+
+    <div id="resultado" class="oculto">
+        <h1 id="mensaje"></h1>
+        <img src="foto-vale.jpeg" alt="foto vale">
+    </div>
+
+    <script>
+        function acceder() {
+            const nombre = document.getElementById("nombre").value.trim();
+            const edad = document.getElementById("edad").value;
+            const genero = document.getElementById("genero").value;
+
+            if (!nombre || !edad || !genero) {
+                alert("Por favor completa todos los campos.");
+                return;
+            }
+
+            if (genero === "masculino") {
+                document.getElementById("formulario").classList.add("oculto");
+                const cerrado = document.getElementById("cerrado");
+                cerrado.classList.remove("oculto");
+                cerrado.textContent = "Acceso denegado.";
+                document.getElementById("resultado").classList.add("oculto");
+                return;
+            }
+
+            if (genero !== "femenino") {
+                alert("Solo pueden acceder las personas de género femenino.");
+                return;
+            }
+
+            document.getElementById("formulario").classList.add("oculto");
+            document.getElementById("resultado").classList.remove("oculto");
+            document.getElementById("mensaje").textContent = nombre + ", ¿te parece linda esta persona?";
+        }
+    </script>
+</body>
+</html>

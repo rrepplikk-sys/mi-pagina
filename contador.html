@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de clics</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        #contador {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 10px 0 20px;
+        }
+        img {
+            max-width: 80vw;
+            max-height: 60vh;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s;
+        }
+        img:active {
+            transform: scale(0.98);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #16213e;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0f3460;
+        }
+    </style>
+</head>
+<body>
+    <h1>Haz clic en la imagen</h1>
+    <div id="contador">0</div>
+    <img src="wallpaper.jpg" alt="Fondo de pantalla" onclick="incrementar()">
+    <button onclick="reiniciar()">Reiniciar</button>
+
+    <script>
+        let clicks = 0;
+
+        function incrementar() {
+            clicks++;
+            document.getElementById("contador").textContent = clicks;
+        }
+
+        function reiniciar() {
+            clicks = 0;
+            document.getElementById("contador").textContent = clicks;
+        }
+    </script>
+</body>
+</html>
