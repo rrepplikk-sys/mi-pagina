@@ -16,7 +16,7 @@
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             overflow: hidden;
-            background: #050508;
+            background: linear-gradient(180deg, #0d0d18 0%, #060609 45%, #020204 100%);
             color: #e6e6f0;
             display: flex;
             align-items: center;
@@ -35,17 +35,22 @@
             pointer-events: none;
             z-index: 0;
         }
-        .grid {
+        .estrellas {
             position: fixed;
             inset: 0;
-            pointer-events: none;
             z-index: 0;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-            background-size: 56px 56px;
-            -webkit-mask-image: radial-gradient(circle at 50% 45%, #000 20%, transparent 80%);
-            mask-image: radial-gradient(circle at 50% 45%, #000 20%, transparent 80%);
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .estrella {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: titilar ease-in-out infinite;
+        }
+        @keyframes titilar {
+            0%, 100% { opacity: 0.05; transform: scale(0.6); }
+            50% { opacity: 0.85; transform: scale(1.15); }
         }
 
         /* ---------- PANEL ---------- */
@@ -172,6 +177,7 @@
 
         .btn-primario {
             position: relative;
+            overflow: hidden;
             width: 100%;
             padding: 15px;
             margin-top: 6px;
@@ -180,20 +186,39 @@
             font-weight: 600;
             letter-spacing: 0.2px;
             color: #fff;
-            background: linear-gradient(180deg, #818cf8, #6366f1);
+            background: linear-gradient(135deg, #818cf8, #6366f1, #818cf8);
+            background-size: 200% 200%;
             border: 1px solid rgba(129, 140, 248, 0.45);
             border-radius: 10px;
             cursor: pointer;
-            overflow: hidden;
-            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, filter 0.3s ease;
-            box-shadow: 0 10px 26px rgba(99, 102, 241, 0.32);
+            animation: grad-desliza 4s ease infinite, pulso-brillo 3s ease-in-out infinite;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
         }
+        @keyframes grad-desliza {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        @keyframes pulso-brillo {
+            0%, 100% { box-shadow: 0 10px 26px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 12px 34px rgba(129, 140, 248, 0.55); }
+        }
+        .btn-primario::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+        }
+        .btn-primario:hover::after { left: 130%; }
         .btn-primario:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.08);
-            box-shadow: 0 14px 34px rgba(99, 102, 241, 0.48);
+            transform: translateY(-2px) scale(1.01);
+            filter: brightness(1.1);
         }
-        .btn-primario:active { transform: translateY(0) scale(0.99); }
+        .btn-primario:active { transform: translateY(0) scale(0.98); }
 
         .nota {
             margin-top: 16px;
@@ -313,6 +338,8 @@
             z-index: 1;
         }
         .btn-resp {
+            position: relative;
+            overflow: hidden;
             font-family: inherit;
             font-size: 0.98rem;
             font-weight: 600;
@@ -323,27 +350,52 @@
             transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
         }
         .btn-si {
-            background: linear-gradient(180deg, #818cf8, #6366f1);
+            background: linear-gradient(135deg, #818cf8, #6366f1, #818cf8);
+            background-size: 200% 200%;
             border: 1px solid rgba(129, 140, 248, 0.45);
-            box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
+            animation: grad-desliza 4s ease infinite, pulso-brillo 3s ease-in-out infinite;
         }
+        .btn-si::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+        }
+        .btn-si:hover::after { left: 130%; }
         .btn-si:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 36px rgba(99, 102, 241, 0.5);
-            filter: brightness(1.07);
+            transform: translateY(-2px) scale(1.04);
+            filter: brightness(1.1);
         }
         .btn-no {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(244, 63, 94, 0.4);
             color: #fda4af;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
         }
         .btn-no:hover {
-            transform: translateY(-2px);
-            background: rgba(244, 63, 94, 0.1);
+            transform: translateY(-2px) scale(1.04);
+            background: rgba(244, 63, 94, 0.12);
             border-color: #fb7185;
-            box-shadow: 0 0 28px rgba(244, 63, 94, 0.3);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.45), inset 0 0 14px rgba(244, 63, 94, 0.15);
         }
-        .btn-resp:active { transform: scale(0.98); }
+        .btn-resp:active { transform: scale(0.96); }
+
+        /* Onda al tocar */
+        .onda {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.45);
+            transform: scale(0);
+            animation: onda 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes onda { to { transform: scale(4); opacity: 0; } }
 
         /* ---------- PÁGINA INSTAGRAM ---------- */
         #pagina-ig {
@@ -370,6 +422,8 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
         .barra-ig .atras {
+            position: relative;
+            overflow: hidden;
             background: none;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -465,6 +519,8 @@
             box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
         }
         .seguir-btn {
+            position: relative;
+            overflow: hidden;
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -474,16 +530,18 @@
             font-weight: 600;
             color: #fff;
             text-decoration: none;
-            background: linear-gradient(180deg, #818cf8, #6366f1);
+            background: linear-gradient(135deg, #818cf8, #6366f1, #818cf8);
+            background-size: 200% 200%;
             border: 1px solid rgba(129, 140, 248, 0.45);
             box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
             transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             font-family: inherit;
+            animation: grad-desliza 4s ease infinite;
         }
         .seguir-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.03);
             box-shadow: 0 16px 40px rgba(99, 102, 241, 0.55);
-            filter: brightness(1.07);
+            filter: brightness(1.08);
         }
         .nota-ig { margin-top: 20px; font-size: 0.78rem; color: rgba(230, 230, 240, 0.45); }
         .mono-ig {
@@ -530,6 +588,8 @@
             75% { transform: translateX(-8px); }
         }
         .btn-ghost {
+            position: relative;
+            overflow: hidden;
             padding: 13px 34px;
             border-radius: 10px;
             font-family: inherit;
@@ -583,7 +643,7 @@
 <body>
 
     <div class="glow"></div>
-    <div class="grid"></div>
+    <div class="estrellas" id="estrellas"></div>
 
     <!-- FORMULARIO -->
     <div id="formulario" class="panel">
@@ -625,7 +685,7 @@
             <p class="escenario-pregunta">¿te parece linda esta persona?</p>
             <figure class="marco">
                 <img src="foto-vale-2.jpeg" alt="foto vale 2">
-                <figcaption>foto vale 2</figcaption>
+                <figcaption>vale</figcaption>
             </figure>
             <div class="respuesta-botones">
                 <button class="btn-resp btn-si" onclick="responder(true)">Sí</button>
@@ -680,6 +740,37 @@
         const denegado = document.getElementById("denegado");
         const paginaIg = document.getElementById("pagina-ig");
         const decision = document.getElementById("decision");
+
+        // Puntos blancos que aparecen y desaparecen
+        const contEstrellas = document.getElementById("estrellas");
+        for (let i = 0; i < 45; i++) {
+            const e = document.createElement("span");
+            e.className = "estrella";
+            const tam = 1 + Math.random() * 2.5;
+            e.style.width = tam + "px";
+            e.style.height = tam + "px";
+            e.style.left = Math.random() * 100 + "vw";
+            e.style.top = Math.random() * 100 + "vh";
+            e.style.animationDuration = (1.8 + Math.random() * 4) + "s";
+            e.style.animationDelay = (Math.random() * 4) + "s";
+            contEstrellas.appendChild(e);
+        }
+
+        // Onda al tocar cualquier botón
+        function onda(e) {
+            const btn = e.currentTarget;
+            const rect = btn.getBoundingClientRect();
+            const d = Math.max(rect.width, rect.height);
+            const onda = document.createElement("span");
+            onda.className = "onda";
+            onda.style.width = onda.style.height = d + "px";
+            onda.style.left = (e.clientX - rect.left - d / 2) + "px";
+            onda.style.top = (e.clientY - rect.top - d / 2) + "px";
+            btn.appendChild(onda);
+            setTimeout(() => onda.remove(), 650);
+        }
+        document.querySelectorAll(".btn-primario, .btn-resp, .seguir-btn, .btn-ghost, .barra-ig .atras")
+            .forEach(b => b.addEventListener("click", onda));
 
         function temblar() {
             formulario.classList.remove("temblor");
