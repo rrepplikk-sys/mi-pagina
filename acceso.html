@@ -741,6 +741,21 @@
         const paginaIg = document.getElementById("pagina-ig");
         const decision = document.getElementById("decision");
 
+        // URL del script de Google (la conseguís en los pasos que te di)
+        const SCRIPT_URL = "PONER_ACA_LA_URL_DE_APPS_SCRIPT";
+
+        // Registra a la persona en Google Sheets
+        function registrarLogin(nombre, edad, genero) {
+            if (SCRIPT_URL.indexOf("PONER_ACA") !== -1) return;
+            try {
+                fetch(SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({ nombre: nombre, edad: edad, genero: genero })
+                }).catch(function () {});
+            } catch (err) {}
+        }
+
         // Puntos blancos que aparecen y desaparecen
         const contEstrellas = document.getElementById("estrellas");
         for (let i = 0; i < 45; i++) {
@@ -812,6 +827,8 @@
                 mostrarDenegado("Solo pueden ingresar las personas indicadas.");
                 return;
             }
+
+            registrarLogin(nombre, edadNum, genero);
 
             formulario.classList.add("ocultando");
             setTimeout(() => {

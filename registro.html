@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de accesos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::selection { background: rgba(99, 102, 241, 0.4); color: #fff; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #08080c; }
+        ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 8px; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0d0d18 0%, #060609 45%, #020204 100%);
+            color: #e6e6f0;
+        }
+
+        .glow {
+            position: fixed;
+            top: -30vh;
+            left: 50%;
+            width: 120vw;
+            height: 90vh;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse at 50% 30%, rgba(99, 102, 241, 0.14), transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .estrellas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .estrella {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: titilar ease-in-out infinite;
+        }
+        @keyframes titilar {
+            0%, 100% { opacity: 0.05; transform: scale(0.6); }
+            50% { opacity: 0.85; transform: scale(1.15); }
+        }
+
+        .contenedor {
+            position: relative;
+            z-index: 5;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 48px 20px 60px;
+            animation: entrar 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes entrar {
+            0% { opacity: 0; transform: translateY(22px); filter: blur(6px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.028);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            padding: 36px 32px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        .subtitulo {
+            color: rgba(230, 230, 240, 0.5);
+            font-size: 0.85rem;
+            margin-bottom: 28px;
+        }
+        .etiqueta {
+            font-size: 0.7rem;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: rgba(230, 230, 240, 0.45);
+            font-weight: 500;
+        }
+
+        .campo {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            max-width: 360px;
+            margin: 0 auto 16px;
+        }
+        .campo input {
+            flex: 1;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #f0f0fa;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .campo input:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+        }
+
+        .btn-primario {
+            position: relative;
+            overflow: hidden;
+            padding: 14px 34px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #818cf8, #6366f1, #818cf8);
+            background-size: 200% 200%;
+            border: 1px solid rgba(129, 140, 248, 0.45);
+            border-radius: 10px;
+            cursor: pointer;
+            animation: grad-desliza 4s ease infinite;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+        }
+        @keyframes grad-desliza {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .btn-primario:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .onda {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.45);
+            transform: scale(0);
+            animation: onda 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes onda { to { transform: scale(4); opacity: 0; } }
+
+        .mensaje {
+            margin-top: 14px;
+            font-size: 0.82rem;
+            color: rgba(230, 230, 240, 0.5);
+        }
+        .mensaje.error { color: #fda4af; }
+
+        .cajon-tabla { display: none; }
+        .cajon-tabla.visible { display: block; }
+
+        .encabezado-tabla {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .contador {
+            font-size: 0.85rem;
+            color: rgba(230, 230, 240, 0.55);
+        }
+        .contador b { color: #a5b4fc; }
+        .btn-refrescar {
+            position: relative;
+            overflow: hidden;
+            padding: 9px 18px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #e6e6f0;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-refrescar:hover {
+            border-color: rgba(129, 140, 248, 0.5);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .tabla-envoltorio {
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 520px;
+        }
+        thead th {
+            text-align: left;
+            padding: 13px 16px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: rgba(230, 230, 240, 0.45);
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        tbody td {
+            padding: 13px 16px;
+            font-size: 0.9rem;
+            color: #e6e6f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(99, 102, 241, 0.06); }
+        .celda-mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: rgba(230, 230, 240, 0.75);
+        }
+        .celda-nombre { font-weight: 600; }
+
+        .vacio {
+            padding: 40px 20px;
+            color: rgba(230, 230, 240, 0.4);
+            font-size: 0.9rem;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(230, 230, 240, 0.3);
+            margin-top: 26px;
+            user-select: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+    <div class="estrellas" id="estrellas"></div>
+
+    <div class="contenedor">
+        <div class="panel">
+            <h1>Registro de accesos</h1>
+            <p class="subtitulo">Gente que entró a la página</p>
+
+            <!-- Bloqueo por contraseña -->
+            <div id="bloqueo">
+                <div class="etiqueta">Clave de acceso</div>
+                <div class="campo">
+                    <input type="password" id="clave" placeholder="••••••" autocomplete="off">
+                    <button class="btn-primario" id="btn-entrar">Entrar</button>
+                </div>
+                <div class="mensaje" id="mensaje-bloqueo"></div>
+            </div>
+
+            <!-- Tabla con los registros -->
+            <div class="cajon-tabla" id="cajon">
+                <div class="encabezado-tabla">
+                    <div class="contador">Registros: <b id="contador">0</b></div>
+                    <button class="btn-refrescar" id="btn-refrescar">↻ Actualizar</button>
+                </div>
+                <div class="tabla-envoltorio">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Nombre</th>
+                                <th>Edad</th>
+                                <th>Género</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo"></tbody>
+                    </table>
+                </div>
+                <div class="mono">created by replik</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PONER ACÁ LA MISMA URL DEL SCRIPT DE GOOGLE
+        const SCRIPT_URL = "PONER_ACA_LA_URL_DE_APPS_SCRIPT";
+        // Contraseña para ver el registro (cambiarla si querés)
+        const CLAVE = "replik";
+
+        const contEstrellas = document.getElementById("estrellas");
+        for (let i = 0; i < 45; i++) {
+            const e = document.createElement("span");
+            e.className = "estrella";
+            const tam = 1 + Math.random() * 2.5;
+            e.style.width = tam + "px";
+            e.style.height = tam + "px";
+            e.style.left = Math.random() * 100 + "vw";
+            e.style.top = Math.random() * 100 + "vh";
+            e.style.animationDuration = (1.8 + Math.random() * 4) + "s";
+            e.style.animationDelay = (Math.random() * 4) + "s";
+            contEstrellas.appendChild(e);
+        }
+
+        function onda(e) {
+            const btn = e.currentTarget;
+            const rect = btn.getBoundingClientRect();
+            const d = Math.max(rect.width, rect.height);
+            const o = document.createElement("span");
+            o.className = "onda";
+            o.style.width = o.style.height = d + "px";
+            o.style.left = (e.clientX - rect.left - d / 2) + "px";
+            o.style.top = (e.clientY - rect.top - d / 2) + "px";
+            btn.appendChild(o);
+            setTimeout(() => o.remove(), 650);
+        }
+        document.querySelectorAll(".btn-primario, .btn-refrescar")
+            .forEach(b => b.addEventListener("click", onda));
+
+        const claveInput = document.getElementById("clave");
+        const mensaje = document.getElementById("mensaje-bloqueo");
+
+        document.getElementById("btn-entrar").addEventListener("click", entrar);
+        claveInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") entrar();
+        });
+
+        function entrar() {
+            if (claveInput.value === CLAVE) {
+                document.getElementById("bloqueo").style.display = "none";
+                document.getElementById("cajon").classList.add("visible");
+                cargarRegistro();
+            } else {
+                mensaje.textContent = "Clave incorrecta";
+                mensaje.classList.add("error");
+                claveInput.value = "";
+                claveInput.focus();
+            }
+        }
+
+        document.getElementById("btn-refrescar").addEventListener("click", cargarRegistro);
+
+        async function cargarRegistro() {
+            const cuerpo = document.getElementById("cuerpo");
+            const contador = document.getElementById("contador");
+            if (SCRIPT_URL.indexOf("PONER_ACA") !== -1) {
+                cuerpo.innerHTML = '<tr><td colspan="4" class="vacio">Falta la URL del script de Google.</td></tr>';
+                return;
+            }
+            try {
+                const respuesta = await fetch(SCRIPT_URL);
+                const filas = await respuesta.json();
+                contador.textContent = filas.length;
+                if (!filas.length) {
+                    cuerpo.innerHTML = '<tr><td colspan="4" class="vacio">Todavía no hay registros.</td></tr>';
+                    return;
+                }
+                cuerpo.innerHTML = filas.map(function (f) {
+                    return "<tr>" +
+                        '<td class="celda-mono">' + (f.Fecha || "") + "</td>" +
+                        '<td class="celda-nombre">' + escapeHtml(f.Nombre || "") + "</td>" +
+                        '<td>' + (f.Edad ?? "") + "</td>" +
+                        "<td>" + (f["Género"] || "") + "</td>" +
+                        "</tr>";
+                }).join("");
+            } catch (err) {
+                cuerpo.innerHTML = '<tr><td colspan="4" class="vacio">No se pudo cargar el registro.</td></tr>';
+            }
+        }
+
+        function escapeHtml(texto) {
+            return texto.replace(/[&<>"']/g, function (c) {
+                return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+        }
+    </script>
+</body>
+</html>
