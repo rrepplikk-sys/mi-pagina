@@ -285,15 +285,20 @@
             inset: 0;
             z-index: 40;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            overflow-y: auto;
             background: radial-gradient(circle at 50% 30%, #3b0764 0%, #14021f 70%, #0c0016 100%);
             opacity: 0;
             visibility: hidden;
             transition: opacity 1s ease 1.2s, visibility 0s linear 2.2s;
             text-align: center;
             padding: 24px;
+        }
+        .contenido-escena {
+            margin: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         #escenario.visible {
             opacity: 1;
@@ -341,7 +346,7 @@
         .marco img {
             display: block;
             max-width: min(66vw, 440px);
-            max-height: 55vh;
+            max-height: 46vh;
             border-radius: 10px;
             object-fit: cover;
             filter: saturate(1.1) contrast(1.05);
@@ -463,6 +468,153 @@
             user-select: none;
         }
 
+        /* ---------- PÁGINA INSTAGRAM ---------- */
+        #pagina-ig {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            background: linear-gradient(165deg, #fef9f4 0%, #fdf2f8 40%, #f3e8ff 100%);
+            transform: translateY(100%);
+            visibility: hidden;
+            transition: transform 0.75s cubic-bezier(0.65, 0, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        #pagina-ig.activa {
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .barra-ig {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+        .barra-ig .atras {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #262626;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+        .barra-ig .atras:hover { transform: scale(1.15) rotate(90deg); }
+        .barra-ig .logo-ig {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #262626;
+            background: linear-gradient(45deg, #ee2a7b, #6228d7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .cuerpo-ig {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        .tarjeta-perfil {
+            background: #fff;
+            border-radius: 28px;
+            padding: 44px 40px 38px;
+            box-shadow: 0 30px 70px rgba(76, 29, 149, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            width: min(92vw, 420px);
+            animation: aparecer 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+            animation-delay: 0.25s;
+        }
+        .anillo-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7, #f9ce34);
+            background-size: 300% 300%;
+            animation: gradiente 6s linear infinite;
+            box-shadow: 0 12px 30px rgba(238, 42, 123, 0.35);
+        }
+        @keyframes gradiente {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        .anillo-avatar .avatar-interno {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbcfe8, #ede9fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .tarjeta-perfil h2 {
+            font-size: 1.5rem;
+            color: #262626;
+            margin-bottom: 4px;
+        }
+        .tarjeta-perfil .usuario {
+            color: #8e8e8e;
+            margin-bottom: 22px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 34px;
+            margin-bottom: 26px;
+        }
+        .stats div strong {
+            display: block;
+            font-size: 1.2rem;
+            color: #262626;
+        }
+        .stats div span {
+            font-size: 0.75rem;
+            color: #8e8e8e;
+        }
+        .seguir-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 40px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7);
+            background-size: 200% 200%;
+            box-shadow: 0 14px 30px rgba(238, 42, 123, 0.4);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .seguir-btn:hover {
+            transform: translateY(-3px) scale(1.04);
+            background-position: 100% 50%;
+            box-shadow: 0 20px 40px rgba(238, 42, 123, 0.55);
+        }
+        .nota-ig {
+            margin-top: 22px;
+            font-size: 0.8rem;
+            color: #b0b0b0;
+        }
+        .credito-ig {
+            margin-top: 18px;
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            color: rgba(0, 0, 0, 0.25);
+            text-transform: uppercase;
+        }
+
         /* ---------- NEGADO ---------- */
         #denegado {
             position: fixed;
@@ -573,6 +725,31 @@
         </div>
     </div>
 
+    <!-- PÁGINA INSTAGRAM -->
+    <div id="pagina-ig">
+        <div class="barra-ig">
+            <button class="atras" onclick="volverIg()">✕</button>
+            <span class="logo-ig">Instagram</span>
+        </div>
+        <div class="cuerpo-ig">
+            <div class="tarjeta-perfil">
+                <div class="anillo-avatar">
+                    <div class="avatar-interno">💖</div>
+                </div>
+                <h2>Valentina Barneche</h2>
+                <p class="usuario">@valentinobarneche</p>
+                <div class="stats">
+                    <div><strong>✨</strong><span>única</span></div>
+                    <div><strong>💗</strong><span>linda</span></div>
+                    <div><strong>📸</strong><span>insta</span></div>
+                </div>
+                <a class="seguir-btn" href="https://www.instagram.com/valentinobarneche" target="_blank" rel="noopener">📸 Seguir en Instagram</a>
+                <p class="nota-ig">Te llevará directo a su perfil 😉</p>
+                <div class="credito-ig">created by replik</div>
+            </div>
+        </div>
+    </div>
+
     <!-- DENEGADO -->
     <div id="denegado">
         <div class="icono">🚫</div>
@@ -585,6 +762,7 @@
         const telon = document.getElementById("telon");
         const escenario = document.getElementById("escenario");
         const denegado = document.getElementById("denegado");
+        const paginaIg = document.getElementById("pagina-ig");
         const fondoCorazones = document.getElementById("fondocorazones");
 
         // Corazones flotando en el fondo
@@ -648,13 +826,18 @@
             const mensajeNo = document.getElementById("mensaje-no");
 
             if (respuesta) {
+                // Transición a la página de Instagram
+                redes.classList.remove("visible");
                 mensajeNo.classList.remove("visible");
-                redes.classList.add("visible");
-                redes.scrollIntoView({ behavior: "smooth", block: "center" });
+                paginaIg.classList.add("activa");
             } else {
                 redes.classList.remove("visible");
                 mensajeNo.classList.add("visible");
             }
+        }
+
+        function volverIg() {
+            paginaIg.classList.remove("activa");
         }
     </script>
 </body>
