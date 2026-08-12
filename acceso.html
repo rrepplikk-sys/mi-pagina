@@ -4,135 +4,520 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f9a8d4, #fecdd3);
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a0533 0%, #3b0764 40%, #701a75 70%, #9d174d 100%);
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
+        /* Fondo animado */
+        .fondo-corazones {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .corazon {
+            position: absolute;
+            bottom: -40px;
+            color: rgba(255, 255, 255, 0.12);
+            font-size: 28px;
+            animation: subir linear infinite;
+        }
+        @keyframes subir {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-110vh) rotate(40deg); opacity: 0; }
+        }
+
+        /* Halo suave de luz */
+        .halo {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 182, 210, 0.18), transparent 70%);
+            filter: blur(10px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ---------- FORMULARIO ---------- */
         #formulario {
-            background: #fff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            width: 320px;
+            position: relative;
+            z-index: 5;
+            width: 400px;
+            max-width: 92vw;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 24px;
+            padding: 44px 38px 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
             text-align: center;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
-        h2 {
-            color: #be185d;
-            margin-bottom: 24px;
+        #formulario.salida {
+            opacity: 0;
+            transform: scale(0.92) translateY(20px);
+            pointer-events: none;
         }
-        label {
-            display: block;
+        #formulario.temblor {
+            animation: temblor 0.5s ease;
+        }
+        @keyframes temblor {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-12px); }
+            40% { transform: translateX(12px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+        }
+
+        .icono-titulo {
+            font-size: 3rem;
+            margin-bottom: 6px;
+            animation: flotar 3s ease-in-out infinite;
+        }
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        #formulario h2 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #fbcfe8, #f9a8d4, #f472b6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+        }
+        .subtitulo {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.85rem;
+            font-weight: 300;
+            margin-bottom: 26px;
+        }
+
+        /* Campos con etiqueta flotante */
+        .campo {
+            position: relative;
+            margin-bottom: 20px;
             text-align: left;
-            color: #4b5563;
-            font-size: 0.9rem;
-            margin: 12px 0 4px;
         }
-        input, select {
+        .campo label {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            background: transparent;
+        }
+        .campo input, .campo select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            box-sizing: border-box;
+            padding: 16px;
+            font-family: inherit;
             font-size: 1rem;
-        }
-        button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            background: #ec4899;
             color: #fff;
-            border: none;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1.5px solid rgba(255, 255, 255, 0.22);
+            border-radius: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        /* Efecto al pasar el dedo/ratón sobre los campos */
+        .campo input:hover, .campo select:hover {
+            background: rgba(255, 255, 255, 0.13);
+            border-color: rgba(249, 168, 212, 0.7);
+            box-shadow: 0 0 0 4px rgba(249, 168, 212, 0.15), 0 8px 20px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+        .campo input:focus, .campo select:focus {
+            border-color: #f472b6;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.25), 0 0 25px rgba(244, 114, 182, 0.35);
+        }
+        .campo input:focus + label, .campo input:not(:placeholder-shown) + label,
+        .campo select:focus + label, .campo select.lleno + label {
+            top: -9px;
+            left: 12px;
+            font-size: 0.7rem;
+            color: #f9a8d4;
+            background: #4a0e55;
+            padding: 0 8px;
             border-radius: 8px;
-            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        /* Estilo del select (sin apariencia nativa) */
+        .campo select {
             cursor: pointer;
         }
-        button:hover {
-            background: #db2777;
+        .campo select option {
+            color: #1a0533;
+            background: #fff;
         }
-        #resultado {
-            text-align: center;
+        .flecha-select {
+            position: absolute;
+            right: 16px;
+            top: 17px;
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn {
+            position: relative;
+            width: 100%;
+            padding: 16px;
+            margin-top: 8px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             color: #fff;
+            background: linear-gradient(135deg, #ec4899, #a855f7, #6366f1);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            box-shadow: 0 12px 28px rgba(168, 85, 247, 0.4);
         }
-        #resultado h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            background-position: 100% 50%;
+            box-shadow: 0 18px 36px rgba(236, 72, 153, 0.5);
         }
-        #resultado img {
-            max-width: 80vw;
-            max-height: 60vh;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        .btn:active {
+            transform: translateY(0) scale(0.98);
         }
-        .oculto {
-            display: none;
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
         }
-        #cerrado {
+        .btn:hover::after {
+            left: 130%;
+        }
+
+        /* ---------- TELÓN ---------- */
+        #telon {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #telon.activo {
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .cortina {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50.5%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                linear-gradient(180deg, #7f1d1d 0%, #b91c1c 45%, #7f1d1d 100%);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+            transition: transform 1.6s cubic-bezier(0.7, 0, 0.2, 1);
+        }
+        #telon.activo .cortina-izq { transform: translateX(-102%); }
+        #telon.activo .cortina-der { transform: translateX(102%); }
+        .cortina-izq { left: 0; border-right: 3px solid rgba(255, 255, 255, 0.25); }
+        .cortina-der { right: 0; border-left: 3px solid rgba(255, 255, 255, 0.25); }
+
+        /* Borde festoneado inferior del telón */
+        .cortina::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: radial-gradient(circle at 50% 0%, #dc2626 0%, #dc2626 45%, #7f1d1d 46%);
+            background-size: 60px 40px;
+            background-repeat: repeat-x;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+        }
+        .cortina-der::after {
+            transform: scaleX(-1);
+        }
+
+        /* Barra superior del escenario */
+        .barra-telon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 18px;
+            background: linear-gradient(180deg, #450a0a, #7f1d1d);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        /* ---------- ESCENARIO ---------- */
+        #escenario {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 30%, #3b0764 0%, #14021f 70%, #0c0016 100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease 1.2s, visibility 0s linear 2.2s;
             text-align: center;
-            color: #fff;
-            font-size: 1.5rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            padding: 24px;
+        }
+        #escenario.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #escenario.visible .contenido-escena {
+            animation: aparecer 1s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+            animation-delay: 1.4s;
+        }
+        @keyframes aparecer {
+            0% { opacity: 0; transform: translateY(40px) scale(0.9); filter: blur(8px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
+        .escenario-titulo {
+            font-size: clamp(1.4rem, 4vw, 2.4rem);
+            color: #fbcfe8;
+            margin-bottom: 8px;
+            text-shadow: 0 0 30px rgba(249, 168, 212, 0.5);
+        }
+        .escenario-pregunta {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            background: linear-gradient(90deg, #f9a8d4, #f472b6, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 30px;
+        }
+
+        .marco {
+            position: relative;
+            padding: 14px 14px 60px;
+            background: linear-gradient(180deg, #ffffff, #f4e9ff);
+            border-radius: 18px;
+            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.5), 0 0 40px rgba(236, 72, 153, 0.35), 0 30px 60px rgba(0, 0, 0, 0.6);
+            transform: rotate(-2deg);
+            transition: transform 0.5s ease;
+            max-width: min(70vw, 480px);
+        }
+        .marco:hover {
+            transform: rotate(0deg) scale(1.03);
+        }
+        .marco img {
+            display: block;
+            max-width: min(66vw, 440px);
+            max-height: 55vh;
+            border-radius: 10px;
+            object-fit: cover;
+            filter: saturate(1.1) contrast(1.05);
+        }
+        .marco figcaption {
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #6b21a8;
+            font-size: 1.1rem;
+        }
+
+        .espuma { font-size: 1.6rem; margin-top: 26px; letter-spacing: 6px; }
+
+        /* ---------- NEGADO ---------- */
+        #denegado {
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 40%, #2a0011, #140008);
+            color: #fecaca;
+            text-align: center;
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease;
+        }
+        #denegado.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #denegado .icono { font-size: 5rem; margin-bottom: 18px; }
+        #denegado h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            color: #f87171;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(248, 113, 113, 0.6);
+        }
+        #denegado p {
+            margin-top: 12px;
+            color: rgba(254, 202, 202, 0.7);
+            font-weight: 300;
         }
     </style>
 </head>
 <body>
+
+    <div class="fondo-corazones" id="fondocorazones"></div>
+    <div class="halo"></div>
+
+    <!-- FORMULARIO -->
     <div id="formulario">
-        <h2>Bienvenido, completa tus datos</h2>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" placeholder="Tu nombre">
-        <label for="edad">Edad</label>
-        <input type="number" id="edad" placeholder="Tu edad" min="1">
-        <label for="genero">Género</label>
-        <select id="genero">
-            <option value="">Selecciona...</option>
-            <option value="masculino">Masculino</option>
-            <option value="femenino">Femenino</option>
-            <option value="otro">Otro</option>
-        </select>
-        <button onclick="acceder()">Entrar</button>
+        <div class="icono-titulo">💗</div>
+        <h2>Bienvenido</h2>
+        <p class="subtitulo">Completa tus datos para continuar</p>
+
+        <div class="campo">
+            <input type="text" id="nombre" placeholder=" " autocomplete="off">
+            <label for="nombre">Nombre</label>
+        </div>
+
+        <div class="campo">
+            <input type="number" id="edad" placeholder=" " min="1">
+            <label for="edad">Edad</label>
+        </div>
+
+        <div class="campo">
+            <select id="genero">
+                <option value="" disabled selected></option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+            </select>
+            <label for="genero">Género</label>
+            <span class="flecha-select">▼</span>
+        </div>
+
+        <button class="btn" onclick="acceder()">Entrar ✨</button>
     </div>
 
-    <div id="cerrado" class="oculto"></div>
+    <!-- TELÓN -->
+    <div id="telon">
+        <div class="barra-telon"></div>
+        <div class="cortina cortina-izq"></div>
+        <div class="cortina cortina-der"></div>
+    </div>
 
-    <div id="resultado" class="oculto">
-        <h1 id="mensaje"></h1>
-        <img src="foto-vale.jpeg" alt="foto vale">
+    <!-- ESCENARIO -->
+    <div id="escenario">
+        <div class="contenido-escena">
+            <h2 class="escenario-titulo" id="nombre-mostrado"></h2>
+            <p class="escenario-pregunta">¿te parece linda esta persona?</p>
+            <figure class="marco">
+                <img src="foto-vale.jpeg" alt="foto vale">
+                <figcaption>— foto vale —</figcaption>
+            </figure>
+            <div class="espuma">✦ ✧ ✦</div>
+        </div>
+    </div>
+
+    <!-- DENEGADO -->
+    <div id="denegado">
+        <div class="icono">🚫</div>
+        <h1>ACCESO DENEGADO</h1>
+        <p>Solo pueden ingresar las personas indicadas.</p>
     </div>
 
     <script>
+        const formulario = document.getElementById("formulario");
+        const telon = document.getElementById("telon");
+        const escenario = document.getElementById("escenario");
+        const denegado = document.getElementById("denegado");
+        const fondoCorazones = document.getElementById("fondocorazones");
+
+        // Corazones flotando en el fondo
+        const simbolos = ["💗", "💖", "💕", "🩷"];
+        for (let i = 0; i < 14; i++) {
+            const c = document.createElement("span");
+            c.className = "corazon";
+            c.textContent = simbolos[i % simbolos.length];
+            c.style.left = Math.random() * 100 + "vw";
+            c.style.fontSize = (14 + Math.random() * 28) + "px";
+            c.style.animationDuration = (7 + Math.random() * 9) + "s";
+            c.style.animationDelay = (Math.random() * 8) + "s";
+            fondoCorazones.appendChild(c);
+        }
+
+        function temblar() {
+            formulario.classList.remove("temblor");
+            void formulario.offsetWidth;
+            formulario.classList.add("temblor");
+        }
+
+        const generoSelect = document.getElementById("genero");
+        generoSelect.addEventListener("change", function () {
+            this.classList.toggle("lleno", this.value !== "");
+        });
+
         function acceder() {
             const nombre = document.getElementById("nombre").value.trim();
             const edad = document.getElementById("edad").value;
             const genero = document.getElementById("genero").value;
 
             if (!nombre || !edad || !genero) {
-                alert("Por favor completa todos los campos.");
+                temblar();
                 return;
             }
 
+            formulario.classList.add("salida");
+            setTimeout(() => { formulario.style.display = "none"; }, 500);
+
             if (genero === "masculino") {
-                document.getElementById("formulario").classList.add("oculto");
-                const cerrado = document.getElementById("cerrado");
-                cerrado.classList.remove("oculto");
-                cerrado.textContent = "Acceso denegado.";
-                document.getElementById("resultado").classList.add("oculto");
+                setTimeout(() => {
+                    denegado.classList.add("visible");
+                }, 400);
                 return;
             }
 
             if (genero !== "femenino") {
-                alert("Solo pueden acceder las personas de género femenino.");
                 return;
             }
 
-            document.getElementById("formulario").classList.add("oculto");
-            document.getElementById("resultado").classList.remove("oculto");
-            document.getElementById("mensaje").textContent = nombre + ", ¿te parece linda esta persona?";
+            // Abrir el telón y dejar el escenario a la vista
+            telon.classList.add("activo");
+            setTimeout(() => {
+                escenario.classList.add("visible");
+                document.getElementById("nombre-mostrado").textContent = nombre + ",";
+            }, 200);
         }
     </script>
 </body>
