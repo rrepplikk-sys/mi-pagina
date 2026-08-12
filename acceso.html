@@ -16,7 +16,7 @@
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
             overflow: hidden;
-            background: #05060f;
+            background: #04040a;
             color: #e9e6f7;
             display: flex;
             align-items: center;
@@ -24,43 +24,20 @@
         }
 
         /* ---------- FONDO ANIMADO ---------- */
-        .aurora {
-            position: fixed;
-            inset: -50%;
-            z-index: 0;
-            pointer-events: none;
-            background: conic-gradient(from 0deg,
-                rgba(124, 58, 237, 0.22),
-                rgba(6, 182, 212, 0.16),
-                rgba(236, 72, 153, 0.2),
-                rgba(245, 158, 11, 0.12),
-                rgba(34, 211, 238, 0.16),
-                rgba(168, 85, 247, 0.22),
-                rgba(124, 58, 237, 0.22));
-            filter: blur(70px);
-            animation: rotar 45s linear infinite;
-        }
-        @keyframes rotar { to { transform: rotate(360deg); } }
-
         .blob {
             position: fixed;
-            width: 40vw;
-            height: 40vw;
             border-radius: 50%;
-            filter: blur(95px);
-            opacity: 0.3;
+            filter: blur(110px);
             z-index: 0;
             pointer-events: none;
-            animation: deriva 20s ease-in-out infinite alternate;
+            animation: deriva 24s ease-in-out infinite alternate;
         }
-        .blob-1 { background: #7c3aed; top: -12%; left: -8%; }
-        .blob-2 { background: #db2777; bottom: -14%; right: -10%; animation-delay: -6s; }
-        .blob-3 { background: #0891b2; top: 32%; right: 20%; animation-delay: -12s; width: 26vw; height: 26vw; }
-        .blob-4 { background: #d97706; bottom: 8%; left: 16%; animation-delay: -3s; width: 24vw; height: 24vw; opacity: 0.22; }
-        .blob-5 { background: #22d3ee; top: 12%; left: 34%; animation-delay: -9s; width: 20vw; height: 20vw; opacity: 0.2; }
+        .blob-1 { width: 42vw; height: 42vw; background: #312e81; opacity: 0.16; top: -12%; left: -8%; }
+        .blob-2 { width: 38vw; height: 38vw; background: #1e1b4b; opacity: 0.2; bottom: -14%; right: -10%; animation-delay: -8s; }
+        .blob-3 { width: 24vw; height: 24vw; background: #164e63; opacity: 0.14; top: 30%; right: 20%; animation-delay: -15s; }
         @keyframes deriva {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(7vw, 5vh) scale(1.18); }
+            100% { transform: translate(5vw, 4vh) scale(1.1); }
         }
 
         .rejilla {
@@ -69,8 +46,8 @@
             z-index: 0;
             pointer-events: none;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
             background-size: 44px 44px;
             -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 30%, transparent 75%);
             mask-image: radial-gradient(circle at 50% 50%, #000 30%, transparent 75%);
@@ -143,24 +120,6 @@
             80% { transform: translateX(8px); }
         }
 
-        .icono-titulo {
-            width: 72px;
-            height: 72px;
-            margin: 0 auto 14px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(236, 72, 153, 0.25));
-            border: 1px solid rgba(168, 85, 247, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 0 35px rgba(168, 85, 247, 0.25);
-            animation: flotar 3.5s ease-in-out infinite;
-        }
-        @keyframes flotar {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
         #formulario h2 {
             font-size: 1.6rem;
             font-weight: 700;
@@ -502,7 +461,7 @@
             border-radius: 50px;
             cursor: pointer;
             color: #fff;
-            transition: all 0.3s ease;
+            transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
             letter-spacing: 0.5px;
         }
         .btn-si {
@@ -530,8 +489,8 @@
             50% { background-position: 100% 50%; }
         }
         .btn-si:hover {
-            transform: translateY(-3px) scale(1.06);
-            box-shadow: 0 0 40px rgba(34, 211, 238, 0.5);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 0 45px rgba(34, 211, 238, 0.45);
         }
         .btn-no {
             position: relative;
@@ -541,10 +500,10 @@
             box-shadow: 0 10px 24px rgba(244, 63, 94, 0.15);
         }
         .btn-no:hover {
-            transform: translateY(-3px) scale(1.06);
+            transform: translateY(-2px) scale(1.04);
             background: rgba(244, 63, 94, 0.14);
             border-color: #fb7185;
-            box-shadow: 0 0 34px rgba(244, 63, 94, 0.45);
+            box-shadow: 0 0 34px rgba(244, 63, 94, 0.4);
         }
         .btn-resp:active { transform: scale(0.94); }
 
@@ -564,12 +523,13 @@
             z-index: 70;
             background: radial-gradient(circle at 50% 20%, #1b0f33 0%, #0a0618 60%, #050309 100%);
             transform: translateY(100%);
+            opacity: 0;
             visibility: hidden;
-            transition: transform 0.75s cubic-bezier(0.65, 0, 0.25, 1);
+            transition: transform 0.85s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.45s ease;
             display: flex;
             flex-direction: column;
         }
-        #pagina-ig.activa { transform: translateY(0); visibility: visible; }
+        #pagina-ig.activa { transform: translateY(0); opacity: 1; visibility: visible; }
         .barra-ig {
             display: flex;
             align-items: center;
@@ -720,11 +680,16 @@
             background: radial-gradient(circle at 50% 40%, #2b0000 0%, #12000a 55%, #050007 100%);
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease;
+            transform: scale(0.94);
+            transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.55s;
             text-align: center;
             padding: 24px;
         }
-        #decision.visible { opacity: 1; visibility: visible; }
+        #decision.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
         #decision .icono { font-size: 4rem; animation: negar 0.6s ease; }
         #decision h1 {
             font-size: clamp(1.5rem, 5vw, 2.6rem);
@@ -791,20 +756,16 @@
 </head>
 <body>
 
-    <div class="aurora"></div>
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
-    <div class="blob blob-4"></div>
-    <div class="blob blob-5"></div>
     <div class="rejilla"></div>
     <div class="granulado"></div>
     <div class="estrellas" id="estrellas"></div>
 
     <!-- FORMULARIO -->
     <div id="formulario">
-        <div class="icono-titulo">🛡️</div>
-        <h2>Acceso Privado</h2>
+        <h2>Bienvenido</h2>
         <p class="subtitulo">Completa tus datos para continuar</p>
 
         <div class="campo">
