@@ -289,9 +289,9 @@
             background: radial-gradient(circle at 50% 30%, #3b0764 0%, #14021f 70%, #0c0016 100%);
             opacity: 0;
             visibility: hidden;
-            transition: opacity 1s ease 1.2s, visibility 0s linear 2.2s;
+            transition: opacity 0.9s ease 0.6s;
             text-align: center;
-            padding: 24px;
+            padding: 20px;
         }
         .contenido-escena {
             margin: auto;
@@ -299,14 +299,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transform: translateY(24px);
+            opacity: 0;
+            transition: transform 0.9s ease, opacity 0.9s ease;
         }
         #escenario.visible {
             opacity: 1;
             visibility: visible;
         }
         #escenario.visible .contenido-escena {
-            animation: aparecer 1s cubic-bezier(0.2, 0.8, 0.3, 1) both;
-            animation-delay: 1.4s;
+            transform: translateY(0);
+            opacity: 1;
         }
         @keyframes aparecer {
             0% { opacity: 0; transform: translateY(40px) scale(0.9); filter: blur(8px); }
@@ -327,7 +330,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 30px;
+            margin-bottom: 18px;
         }
 
         .marco {
@@ -345,8 +348,8 @@
         }
         .marco img {
             display: block;
-            max-width: min(66vw, 440px);
-            max-height: 46vh;
+            max-width: min(64vw, 400px);
+            max-height: 40vh;
             border-radius: 10px;
             object-fit: cover;
             filter: saturate(1.1) contrast(1.05);
@@ -363,14 +366,16 @@
             font-size: 1.1rem;
         }
 
-        .espuma { font-size: 1.6rem; margin-top: 26px; letter-spacing: 6px; }
+        .espuma { font-size: 1.5rem; margin-top: 16px; letter-spacing: 6px; }
 
         /* Botones de respuesta sí/no */
         .respuesta-botones {
             display: flex;
             gap: 18px;
             justify-content: center;
-            margin-top: 26px;
+            margin-top: 18px;
+            position: relative;
+            z-index: 1;
         }
         .btn-resp {
             font-family: inherit;
@@ -460,7 +465,7 @@
 
         /* Crédito discreto */
         .credito {
-            margin-top: 30px;
+            margin-top: 20px;
             font-size: 0.65rem;
             letter-spacing: 1.5px;
             color: rgba(255, 255, 255, 0.28);
