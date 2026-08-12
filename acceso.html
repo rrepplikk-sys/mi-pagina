@@ -24,23 +24,43 @@
         }
 
         /* ---------- FONDO ANIMADO ---------- */
-        .blob {
+        .aurora {
             position: fixed;
-            width: 42vw;
-            height: 42vw;
-            border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.32;
+            inset: -50%;
             z-index: 0;
             pointer-events: none;
-            animation: deriva 18s ease-in-out infinite alternate;
+            background: conic-gradient(from 0deg,
+                rgba(124, 58, 237, 0.22),
+                rgba(6, 182, 212, 0.16),
+                rgba(236, 72, 153, 0.2),
+                rgba(245, 158, 11, 0.12),
+                rgba(34, 211, 238, 0.16),
+                rgba(168, 85, 247, 0.22),
+                rgba(124, 58, 237, 0.22));
+            filter: blur(70px);
+            animation: rotar 45s linear infinite;
+        }
+        @keyframes rotar { to { transform: rotate(360deg); } }
+
+        .blob {
+            position: fixed;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            filter: blur(95px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+            animation: deriva 20s ease-in-out infinite alternate;
         }
         .blob-1 { background: #7c3aed; top: -12%; left: -8%; }
         .blob-2 { background: #db2777; bottom: -14%; right: -10%; animation-delay: -6s; }
-        .blob-3 { background: #2563eb; top: 35%; right: 22%; animation-delay: -12s; width: 28vw; height: 28vw; }
+        .blob-3 { background: #0891b2; top: 32%; right: 20%; animation-delay: -12s; width: 26vw; height: 26vw; }
+        .blob-4 { background: #d97706; bottom: 8%; left: 16%; animation-delay: -3s; width: 24vw; height: 24vw; opacity: 0.22; }
+        .blob-5 { background: #22d3ee; top: 12%; left: 34%; animation-delay: -9s; width: 20vw; height: 20vw; opacity: 0.2; }
         @keyframes deriva {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(6vw, 4vh) scale(1.15); }
+            100% { transform: translate(7vw, 5vh) scale(1.18); }
         }
 
         .rejilla {
@@ -282,26 +302,51 @@
             bottom: 0;
             width: 50.5%;
             background:
-                radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
-                linear-gradient(180deg, #3b0505 0%, #7f1d1d 45%, #4c0519 100%);
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.7);
+                radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.07) 0%, transparent 50%),
+                repeating-linear-gradient(90deg,
+                    #3b0505 0%,
+                    #5c0a0a 9%,
+                    #7f1d1d 18%,
+                    #5c0a0a 27%,
+                    #3b0505 36%),
+                linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.75);
             transition: transform 1.6s cubic-bezier(0.7, 0, 0.2, 1);
         }
         #telon.activo .cortina-izq { transform: translateX(-102%); }
         #telon.activo .cortina-der { transform: translateX(102%); }
-        .cortina-izq { left: 0; border-right: 3px solid rgba(255, 255, 255, 0.12); }
-        .cortina-der { right: 0; border-left: 3px solid rgba(255, 255, 255, 0.12); }
+        .cortina-izq {
+            left: 0;
+            border-right: 5px solid rgba(212, 160, 23, 0.6);
+            box-shadow: 24px 0 40px rgba(0, 0, 0, 0.55);
+        }
+        .cortina-der {
+            right: 0;
+            border-left: 5px solid rgba(212, 160, 23, 0.6);
+            box-shadow: -24px 0 40px rgba(0, 0, 0, 0.55);
+        }
+        .cortina::before {
+            content: '';
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            height: 7px;
+            background: linear-gradient(90deg, #8a6a10, #f5c542, #d4a017, #f5c542, #8a6a10);
+            opacity: 0.8;
+            z-index: 1;
+        }
         .cortina::after {
             content: '';
             position: absolute;
             bottom: -2px;
             left: 0;
             right: 0;
-            height: 40px;
-            background: radial-gradient(circle at 50% 0%, #991b1b 0%, #991b1b 45%, #450a0a 46%);
-            background-size: 60px 40px;
+            height: 44px;
+            background: radial-gradient(circle at 50% 0%, #991b1b 0%, #991b1b 44%, #450a0a 45%);
+            background-size: 60px 44px;
             background-repeat: repeat-x;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.55));
         }
         .cortina-der::after { transform: scaleX(-1); }
         .barra-telon {
@@ -309,9 +354,12 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 16px;
-            background: linear-gradient(180deg, #1c0404, #450a0a);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            height: 34px;
+            background:
+                repeating-linear-gradient(90deg, #1c0404 0%, #3b0505 7%, #1c0404 14%),
+                linear-gradient(180deg, #2a0606, #450a0a);
+            border-bottom: 4px solid #d4a017;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.65);
             z-index: 2;
         }
 
@@ -375,37 +423,65 @@
 
         .marco {
             position: relative;
-            padding: 12px 12px 54px;
-            background: linear-gradient(180deg, #1c1733, #120e24);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            border-radius: 18px;
+            padding: 10px 10px 52px;
+            background: linear-gradient(180deg, rgba(30, 27, 75, 0.9), rgba(15, 10, 40, 0.95));
+            border-radius: 20px;
+            max-width: min(70vw, 460px);
+            animation: flotar-marco 5s ease-in-out infinite;
             box-shadow:
                 0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-                0 0 45px rgba(168, 85, 247, 0.25),
-                0 30px 60px rgba(0, 0, 0, 0.6);
-            transform: rotate(-1.5deg);
-            transition: transform 0.5s ease;
-            max-width: min(70vw, 460px);
+                0 0 50px rgba(168, 85, 247, 0.22),
+                0 30px 60px rgba(0, 0, 0, 0.65);
         }
-        .marco:hover { transform: rotate(0deg) scale(1.03); }
+        @keyframes flotar-marco {
+            0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+            50% { transform: translateY(-9px) rotate(-1.5deg); }
+        }
+        .marco::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 22px;
+            padding: 2px;
+            background: linear-gradient(135deg, #22d3ee, #a855f7, #ec4899, #f59e0b, #22d3ee);
+            background-size: 300% 300%;
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borde-marco 6s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes borde-marco {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .marco:hover {
+            animation-play-state: paused;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 0 70px rgba(236, 72, 153, 0.4),
+                0 30px 60px rgba(0, 0, 0, 0.65);
+        }
         .marco img {
             display: block;
             max-width: min(64vw, 400px);
             max-height: 40vh;
-            border-radius: 10px;
+            border-radius: 12px;
             object-fit: cover;
-            filter: saturate(1.08) contrast(1.05);
+            filter: saturate(1.08) contrast(1.05) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
         }
         .marco figcaption {
             position: absolute;
-            bottom: 15px;
+            bottom: 14px;
             left: 0;
             right: 0;
             text-align: center;
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            color: #c4b5fd;
+            color: #e0d4ff;
             font-size: 1.05rem;
+            text-shadow: 0 0 18px rgba(168, 85, 247, 0.5);
         }
 
         .espuma { font-size: 1.4rem; margin-top: 16px; letter-spacing: 6px; color: rgba(192, 132, 252, 0.6); }
@@ -422,31 +498,53 @@
             font-family: inherit;
             font-size: 1.05rem;
             font-weight: 600;
-            padding: 14px 36px;
+            padding: 15px 38px;
             border-radius: 50px;
             cursor: pointer;
             color: #fff;
             transition: all 0.3s ease;
+            letter-spacing: 0.5px;
         }
         .btn-si {
-            background: linear-gradient(135deg, #ec4899, #a855f7);
+            position: relative;
+            background: linear-gradient(135deg, #22d3ee, #a855f7, #ec4899, #22d3ee);
+            background-size: 300% 300%;
             border: none;
-            box-shadow: 0 12px 28px rgba(236, 72, 153, 0.4);
+            animation: grad-btn 5s ease infinite;
+            box-shadow: 0 12px 28px rgba(168, 85, 247, 0.45);
+        }
+        .btn-si::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+        }
+        .btn-si:hover::after { left: 130%; }
+        @keyframes grad-btn {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         .btn-si:hover {
             transform: translateY(-3px) scale(1.06);
-            box-shadow: 0 0 34px rgba(236, 72, 153, 0.6);
+            box-shadow: 0 0 40px rgba(34, 211, 238, 0.5);
         }
         .btn-no {
+            position: relative;
             background: rgba(255, 255, 255, 0.05);
-            border: 1.5px solid rgba(248, 113, 113, 0.45);
-            color: #fca5a5;
-            box-shadow: none;
+            border: 2px solid rgba(244, 63, 94, 0.55);
+            color: #fda4af;
+            box-shadow: 0 10px 24px rgba(244, 63, 94, 0.15);
         }
         .btn-no:hover {
             transform: translateY(-3px) scale(1.06);
-            background: rgba(248, 113, 113, 0.12);
-            box-shadow: 0 0 30px rgba(248, 113, 113, 0.35);
+            background: rgba(244, 63, 94, 0.14);
+            border-color: #fb7185;
+            box-shadow: 0 0 34px rgba(244, 63, 94, 0.45);
         }
         .btn-resp:active { transform: scale(0.94); }
 
@@ -553,14 +651,32 @@
             margin-bottom: 4px;
         }
         .tarjeta-perfil .usuario { color: #a78bfa; margin-bottom: 22px; }
-        .stats {
+        .caracteristicas {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 34px;
+            gap: 10px;
             margin-bottom: 26px;
         }
-        .stats div strong { display: block; font-size: 1.2rem; color: #f1eeff; }
-        .stats div span { font-size: 0.75rem; color: rgba(233, 230, 247, 0.5); }
+        .carac {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #e9e6f7;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+        .carac:hover {
+            transform: translateY(-2px);
+            border-color: rgba(34, 211, 238, 0.5);
+            box-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
+        }
         .seguir-btn {
             display: inline-flex;
             align-items: center;
@@ -675,9 +791,12 @@
 </head>
 <body>
 
+    <div class="aurora"></div>
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
     <div class="rejilla"></div>
     <div class="granulado"></div>
     <div class="estrellas" id="estrellas"></div>
@@ -736,8 +855,8 @@
             <div class="espuma">✦ ✧ ✦</div>
 
             <div class="respuesta-botones">
-                <button class="btn-resp btn-si" onclick="responder(true)">Sí 💖</button>
-                <button class="btn-resp btn-no" onclick="responder(false)">No 💔</button>
+                <button class="btn-resp btn-si" onclick="responder(true)">Sí ✓</button>
+                <button class="btn-resp btn-no" onclick="responder(false)">No ✕</button>
             </div>
 
             <div class="credito">created by replik</div>
@@ -753,14 +872,14 @@
         <div class="cuerpo-ig">
             <div class="tarjeta-perfil">
                 <div class="anillo-avatar">
-                    <div class="avatar-interno">💖</div>
+                    <div class="avatar-interno">👨</div>
                 </div>
-                <h2>Valentina Barneche</h2>
+                <h2>Valentino Barneche</h2>
                 <p class="usuario">@valentinobarneche</p>
-                <div class="stats">
-                    <div><strong>✨</strong><span>única</span></div>
-                    <div><strong>💗</strong><span>linda</span></div>
-                    <div><strong>📸</strong><span>insta</span></div>
+                <div class="caracteristicas">
+                    <span class="carac">🤝 Atento</span>
+                    <span class="carac">🏠 No sale nunca</span>
+                    <span class="carac">😎 Fachero</span>
                 </div>
                 <a class="seguir-btn" href="https://www.instagram.com/valentinobarneche" target="_blank" rel="noopener">📸 Seguir en Instagram</a>
                 <p class="nota-ig">Te llevará directo a su perfil 😉</p>
