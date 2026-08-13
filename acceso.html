@@ -744,14 +744,30 @@
         // URL del script de Google (la conseguís en los pasos que te di)
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyls-1aPq3x-EY0FPIzVEAw9MTAIiYkOov_5T7LNRItOd9tUwHWVFu8xe0EznXwKVXx/exec";
 
+        // ID único de esta sesión (para saber qué botón tocó esta persona)
+        let idSesion = "";
+
         // Registra a la persona en Google Sheets
         function registrarLogin(nombre, edad, genero) {
             if (SCRIPT_URL.indexOf("PONER_ACA") !== -1) return;
+            idSesion = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
             try {
                 fetch(SCRIPT_URL, {
                     method: "POST",
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify({ nombre: nombre, edad: edad, genero: genero })
+                    body: JSON.stringify({ accion: "login", id: idSesion, nombre: nombre, edad: edad, genero: genero })
+                }).catch(function () {});
+            } catch (err) {}
+        }
+
+        // Registra el botón que tocó (Sí o No)
+        function registrarDecision(decision) {
+            if (SCRIPT_URL.indexOf("PONER_ACA") !== -1 || !idSesion) return;
+            try {
+                fetch(SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({ accion: "decision", id: idSesion, decision: decision })
                 }).catch(function () {});
             } catch (err) {}
         }
@@ -839,6 +855,7 @@
         }
 
         function responder(respuesta) {
+            registrarDecision(respuesta ? "Sí" : "No");
             if (respuesta) {
                 paginaIg.classList.add("activa");
             } else {
