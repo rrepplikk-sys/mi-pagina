@@ -656,7 +656,7 @@
         </div>
 
         <div class="campo">
-            <input type="number" id="edad" placeholder=" " min="15" max="99">
+            <input type="number" id="edad" placeholder=" " min="15" max="40">
             <label for="edad">Edad</label>
         </div>
 
@@ -673,7 +673,7 @@
 
         <button class="btn-primario" onclick="acceder()">Continuar</button>
 
-        <p class="nota">Edad mínima: 15 años</p>
+        <p class="nota">Edad permitida: 15 a 40 años</p>
 
         <div class="mono">created by replik</div>
     </div>
@@ -836,6 +836,10 @@
             const edadNum = parseInt(edad, 10);
             if (isNaN(edadNum) || edadNum < 15) {
                 mostrarDenegado("Debes tener al menos 15 años. Eres muy menor.");
+                return;
+            }
+            if (edadNum > 40) {
+                mostrarDenegado("Solo pueden ingresar personas de hasta 40 años.");
                 return;
             }
 
